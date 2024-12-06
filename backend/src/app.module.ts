@@ -10,11 +10,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'b5zu7rynimszqg4ldr5j-mysql.services.clever-cloud.com',
+      host: 'bq9h2o8jtrsklcph5asc-mysql.services.clever-cloud.com',
       port: 3306,
-      username: 'uaoqxkhzzbepcxoo', 
-      password: 'hXzNsBysfewcg7CUv1qI', 
-      database: 'b5zu7rynimszqg4ldr5j', 
+      username: 'u5ftbos5dfnazbw3', 
+      password: '6zWVRN9hLXgx4j4Hdm0C', 
+      database: 'bq9h2o8jtrsklcph5asc', 
       autoLoadEntities: true,
       synchronize: true, // Cambia a false en producción
     }),
