@@ -89,7 +89,7 @@ function App() {
   const handleNext = async () => {
     if (currentIndex === 0) {
       try {
-        const projectResponse = await fetch("http://localhost:3000/projects", {
+        const projectResponse = await fetch("http://localhost:3002/projects", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(projectData),
@@ -99,7 +99,7 @@ function App() {
   
         await Promise.all(
           projectMembers.map((member) =>
-            fetch("http://localhost:3000/project-members", {
+            fetch("http://localhost:3002/project-members", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ projectId: project.id, memberName: member }),
@@ -113,7 +113,7 @@ function App() {
       try {
         await Promise.all(
           answers.map((answer) =>
-            fetch("http://localhost:3000/answers", {
+            fetch("http://localhost:3002/answers", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(answer),
@@ -131,12 +131,12 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const itemsResponse = await fetch("http://localhost:3000/items");
+        const itemsResponse = await fetch("http://localhost:3002/items");
         const itemsData = await itemsResponse.json();
         setItems(itemsData);
 
         const questionsResponse = await fetch(
-          "http://localhost:3000/questions"
+          "http://localhost:3002/questions"
         );
         const questionsData = await questionsResponse.json();
         setQuestions(questionsData);
