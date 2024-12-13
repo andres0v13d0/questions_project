@@ -8,6 +8,10 @@ import { FaArrowAltCircleRight } from "react-icons/fa";
 import Item1 from "./components/Item1";
 import Item2 from "./components/Item2";
 import Item3 from "./components/Item3";
+import Item4 from "./components/Item4";
+import Item5 from "./components/Item5";
+
+
 
 function App() {
 
@@ -69,6 +73,42 @@ function App() {
     <Item3
       items={items.filter((item) => item.id === 3)}
       questions={questions.filter((question) => question.item?.id === 3)}
+      vector={vector}
+      projectId={projectId}
+      onAnswerChange={(questionId, response) => {
+        setAnswers((prevAnswers) => {
+          const updatedAnswers = [...prevAnswers];
+          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
+          if (answerIndex !== -1) {
+            updatedAnswers[answerIndex].response = response;
+          } else {
+            updatedAnswers.push({ projectId, questionId, response });
+          }
+          return updatedAnswers;
+        });
+      }}
+    />,
+    <Item4
+      items={items.filter((item) => item.id === 4)}
+      questions={questions.filter((question) => question.item?.id === 4)}
+      vector={vector}
+      projectId={projectId}
+      onAnswerChange={(questionId, response) => {
+        setAnswers((prevAnswers) => {
+          const updatedAnswers = [...prevAnswers];
+          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
+          if (answerIndex !== -1) {
+            updatedAnswers[answerIndex].response = response;
+          } else {
+            updatedAnswers.push({ projectId, questionId, response });
+          }
+          return updatedAnswers;
+        });
+      }}
+    />,
+    <Item5
+      items={items.filter((item) => item.id === 5)}
+      questions={questions.filter((question) => question.item?.id === 5)}
       vector={vector}
       projectId={projectId}
       onAnswerChange={(questionId, response) => {
