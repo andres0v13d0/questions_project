@@ -10,6 +10,10 @@ import Item2 from "./components/Item2";
 import Item3 from "./components/Item3";
 import Item4 from "./components/Item4";
 import Item5 from "./components/Item5";
+import Item6 from "./components/Item6";
+import Item7 from "./components/Item7";
+
+
 
 
 
@@ -124,6 +128,43 @@ function App() {
         });
       }}
     />,
+    <Item6
+      items={items.filter((item) => item.id === 6)}
+      questions={questions.filter((question) => question.item?.id === 6)}
+      vector={vector}
+      projectId={projectId}
+      onAnswerChange={(questionId, response) => {
+        setAnswers((prevAnswers) => {
+          const updatedAnswers = [...prevAnswers];
+          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
+          if (answerIndex !== -1) {
+            updatedAnswers[answerIndex].response = response;
+          } else {
+            updatedAnswers.push({ projectId, questionId, response });
+          }
+          return updatedAnswers;
+        });
+      }}
+    />,
+    <Item7
+      items={items.filter((item) => item.id === 7)}
+      questions={questions.filter((question) => question.item?.id === 7)}
+      vector={vector}
+      projectId={projectId}
+      onAnswerChange={(questionId, response) => {
+        setAnswers((prevAnswers) => {
+          const updatedAnswers = [...prevAnswers];
+          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
+          if (answerIndex !== -1) {
+            updatedAnswers[answerIndex].response = response;
+          } else {
+            updatedAnswers.push({ projectId, questionId, response });
+          }
+          return updatedAnswers;
+        });
+      }}
+    />,
+    
   ];
 
   const handleNext = async () => {
