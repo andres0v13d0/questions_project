@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ProjectData from "./components/ProjectData";
 import Header from "./section/Header";
 import Slider from "./section/Slider";
@@ -12,13 +13,13 @@ import Item4 from "./components/Item4";
 import Item5 from "./components/Item5";
 import Item6 from "./components/Item6";
 import Item7 from "./components/Item7";
-
-
-
-
+import Item8 from "./components/Item8";
+import Item9 from "./components/Item8";
+import Item10 from "./components/Item10";
 
 function App() {
 
+  const navigate = useNavigate();
   const [projectData, setProjectData] = useState(null); 
   const [projectMembers, setProjectMembers] = useState([]); 
   const [answers, setAnswers] = useState([]);
@@ -164,6 +165,62 @@ function App() {
         });
       }}
     />,
+    <Item8
+      items={items.filter((item) => item.id === 8)}
+      questions={questions.filter((question) => question.item?.id === 8)}
+      vector={vector}
+      projectId={projectId}
+      onAnswerChange={(questionId, response) => {
+        setAnswers((prevAnswers) => {
+          const updatedAnswers = [...prevAnswers];
+          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
+          if (answerIndex !== -1) {
+            updatedAnswers[answerIndex].response = response;
+          } else {
+            updatedAnswers.push({ projectId, questionId, response });
+          }
+          return updatedAnswers;
+        });
+      }}
+    />,
+    <Item9
+      items={items.filter((item) => item.id === 9)}
+      questions={questions.filter((question) => question.item?.id === 9)}
+      vector={vector}
+      projectId={projectId}
+      onAnswerChange={(questionId, response) => {
+        setAnswers((prevAnswers) => {
+          const updatedAnswers = [...prevAnswers];
+          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
+          if (answerIndex !== -1) {
+            updatedAnswers[answerIndex].response = response;
+          } else {
+            updatedAnswers.push({ projectId, questionId, response });
+          }
+          return updatedAnswers;
+        });
+      }}
+    />,
+    <Item10
+      items={items.filter((item) => item.id === 10)}
+      questions={questions.filter((question) => question.item?.id === 10)}
+      vector={vector}
+      projectId={projectId}
+      onAnswerChange={(questionId, response) => {
+        setAnswers((prevAnswers) => {
+          const updatedAnswers = [...prevAnswers];
+          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
+          if (answerIndex !== -1) {
+            updatedAnswers[answerIndex].response = response;
+          } else {
+            updatedAnswers.push({ projectId, questionId, response });
+          }
+          return updatedAnswers;
+        });
+      }}
+    />,
+
+
     
   ];
 
@@ -187,6 +244,8 @@ function App() {
             })
           )
         );
+
+
       } catch (error) {
         console.error("Error al enviar los datos del proyecto:", error);
       }
@@ -206,7 +265,11 @@ function App() {
       }
     }
   
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % components.length);
+    if (currentIndex === components.length - 1) {
+      navigate("/pdf-create", { state: { projectId } });  
+    } else {
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+    }
   };
 
   useEffect(() => {

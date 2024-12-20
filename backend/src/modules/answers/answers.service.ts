@@ -26,12 +26,24 @@ export class AnswersService {
     }
 
     const question = await this.questionRepository.findOne({ where: { id: questionId } });
-    if (!question) {
+    if (!question) {  
       throw new BadRequestException(`La pregunta con ID ${questionId} no existe.`);
     }
 
     const answer = this.answerRepository.create({ project, question, response, isDeleted: false });
-    return this.answerRepository.save(answer);
+    const savedAnswer = await this.answerRepository.save(answer);
+
+    await this.updateScore(projectId, parseFloat(response));
+  
+    return savedAnswer;
+  }
+
+  private async updateScore(projectId: number, valueToAdd: number): Promise<void> {
+    if (isNaN(valueToAdd)) {
+      throw new BadRequestException(`La respuesta no es un número válido: ${valueToAdd}`);
+    }
+  
+    await this.projectRepository.increment({ id: projectId }, 'score', valueToAdd);
   }
 
   async findAll(): Promise<Answer[]> {
