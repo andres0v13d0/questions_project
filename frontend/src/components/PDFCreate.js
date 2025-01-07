@@ -3,69 +3,99 @@ import { PDFViewer } from '@react-pdf/renderer';
 import { useLocation } from 'react-router-dom';
 import PDFDocument from './PDFDocument';
 
-const PDFCreate = () => {
-  const location = useLocation();
-  const { projectId } = location.state || {}; // Obtén el projectId desde el estado
+function PDFCreate() {
   const [content, setContent] = useState(null);
+  const API_BASE_URL = 'http://localhost:3002';
 
+  // Obteniendo projectId desde el estado
+  const location = useLocation();
+  const projectId = location.state?.projectId;
+ 
   useEffect(() => {
+    if (!projectId) {
+      console.error('No se proporcionó projectId en el estado de navegación.');
+      return;
+    }
+
     const fetchData = async () => {
       try {
-        // Obtén los datos del proyecto
-        const projectResponse = await fetch(`http://localhost:3002/projects/${projectId}`);
-        const project = await projectResponse.json();
+        console.log('Iniciando solicitud para obtener datos con projectId:', projectId);
 
-        // Obtén todos los miembros del proyecto
-        const membersResponse = await fetch('http://localhost:3002/project-members');
-        const members = await membersResponse.json();
-        const filteredMembers = members.filter(member => member.projectId === projectId);
+        const [projectResponse, membersResponse, questionsResponse, answersResponse] = await Promise.all([
+          fetch(`${API_BASE_URL}/projects/${projectId}`),
+          fetch(`${API_BASE_URL}/project-members`),
+          fetch(`${API_BASE_URL}/questions`),
+          fetch(`${API_BASE_URL}/answers`),
+        ]);
 
-        // Obtén todas las preguntas
-        const questionsResponse = await fetch('http://localhost:3002/questions');
-        const questions = await questionsResponse.json();
+        // Verificando el estado de las respuestas
+        if (!projectResponse.ok) console.error('Error en projectResponse');
+        if (!membersResponse.ok) console.error('Error en membersResponse');
+        if (!questionsResponse.ok) console.error('Error en questionsResponse');
+        if (!answersResponse.ok) console.error('Error en answersResponse');
 
-        // Obtén todas las respuestas
-        const answersResponse = await fetch('http://localhost:3002/answers');
-        const answers = await answersResponse.json();
-        const filteredAnswers = answers.filter(answer => answer.projectId === projectId);
+        if (!projectResponse.ok || !membersResponse.ok || !questionsResponse.ok || !answersResponse.ok) {
+          throw new Error('Error al obtener datos desde el servidor');
+        }
 
-        // Construye el contenido para el PDF
+        const [project, members, questions, answers] = await Promise.all([
+          projectResponse.json(),
+          membersResponse.json(),
+          questionsResponse.json(),
+          answersResponse.json(),
+        ]);
+
+        // Debugging de datos obtenidos
+        console.log('Datos del proyecto:', project);
+        console.log('Miembros del proyecto:', members);
+        console.log('Preguntas:', questions);
+        console.log('Respuestas:', answers);
+
+        // Filtrar miembros y respuestas por projectId
+        const filteredMembers = members
+          .filter(member => member.project?.id === projectId)
+          .map(member => member.memberName);
+
+        console.log('Miembros filtrados:', filteredMembers);
+
+        const filteredAnswers = answers.filter(answer => answer.project?.id === projectId);
+        console.log('Respuestas filtradas:', filteredAnswers);
+
+        // Construcción del contenido del PDF
         const newContent = {
-          projectName: project.name,
-          coordinator: project.coordinator,
-          score: project.score,
-          status: project.status,
-          members: filteredMembers.map(member => member.memberName),
+          projectName: project.name || 'Nombre no disponible',
+          coordinator: project.coordinator || 'Coordinador no disponible',
+          score: project.score || 0,
+          status: project.status || 'Sin estado',
+          members: filteredMembers,
           questions: questions.map(question => ({
             questionId: question.id,
-            response: filteredAnswers.find(answer => answer.questionId === question.id)?.response || '0',
+            content: question.content,
+            response: filteredAnswers.find(answer => answer.question?.id === question.id)?.response || '0',
           })),
         };
 
+        console.log('Contenido construido para el PDF:', newContent);
         setContent(newContent);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
       }
     };
 
-    if (projectId) {
-      fetchData();
-    }
-  }, [projectId]);
-
-  if (!content) {
-    return <div>Cargando datos...</div>;
-  }
+    fetchData();
+  }, [projectId]); // Se ejecutará el efecto cuando cambie el projectId
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      <div style={{ height: '100vh' }}>
-        <PDFViewer style={{ width: '100%', height: '100%' }}>
+    <div style={{height:'100vh'}}>
+      {content ? (
+        <PDFViewer width="100%" height='100%'>
           <PDFDocument content={content} />
         </PDFViewer>
-      </div>
+      ) : (
+        <p>Cargando datos...</p>
+      )}
     </div>
   );
-};
+}
 
 export default PDFCreate;

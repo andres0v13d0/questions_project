@@ -251,8 +251,25 @@ function App() {
       }
     } else if (currentIndex > 0) {
       try {
+        // Filtrar respuestas duplicadas por questionId
+        const uniqueAnswers = Array.from(
+          answers.reduce((map, answer) => {
+            if (!map.has(answer.questionId)) {
+              map.set(answer.questionId, answer); // Agregar si no existe
+            }
+            return map; // Continuar acumulando
+          }, new Map()).values() // Extraer solo los valores únicos
+        );
+      
+        // Comprobar si hubo duplicados y mostrarlos en consola
+        if (uniqueAnswers.length !== answers.length) {
+          console.log("Se eliminaron respuestas duplicadas:");
+          console.log(answers.filter(answer => !uniqueAnswers.includes(answer)));
+        }
+      
+        // Enviar las respuestas únicas al servidor
         await Promise.all(
-          answers.map((answer) =>
+          uniqueAnswers.map((answer) =>
             fetch("http://localhost:3002/answers", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -260,9 +277,11 @@ function App() {
             })
           )
         );
+      
+        console.log("Respuestas enviadas correctamente.");
       } catch (error) {
-        console.error("Error al enviar las respuestas:", error);
-      }
+        console.error("Error al enviar respuestas:", error);
+      }      
     }
   
     if (currentIndex === components.length - 1) {
@@ -304,7 +323,6 @@ function App() {
         <button
           onClick={handleNext}
           className="next-btn"
-          disabled={currentIndex === components.length - 1}
         >
           <FaArrowAltCircleRight />
         </button>

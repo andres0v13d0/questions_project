@@ -189,3 +189,24 @@ a{
 button{
   cursor: pointer;
 }
+
+@media (max-width: 599px) {
+
+  .site-header .container, .site-header .top-header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .site-header{
+    height: 15vh;
+  }
+
+  .container .top-header-left{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+}

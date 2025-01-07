@@ -19,21 +19,33 @@ export class AnswersService {
 
   async create(createAnswerDto: CreateAnswerDto): Promise<Answer> {
     const { projectId, questionId, response } = createAnswerDto;
-
+  
+    // Verificar si el proyecto existe y no está eliminado
     const project = await this.projectRepository.findOne({ where: { id: projectId, isDeleted: false } });
     if (!project) {
       throw new BadRequestException(`El proyecto con ID ${projectId} no existe o está eliminado.`);
     }
-
+  
+    // Verificar si la pregunta existe
     const question = await this.questionRepository.findOne({ where: { id: questionId } });
     if (!question) {  
       throw new BadRequestException(`La pregunta con ID ${questionId} no existe.`);
     }
-
-    const answer = this.answerRepository.create({ project, question, response, isDeleted: false });
-    const savedAnswer = await this.answerRepository.save(answer);
-
-    await this.updateScore(projectId, parseFloat(response));
+  
+    // Verificar si ya existe una respuesta para el projectId y questionId
+    const existingAnswer = await this.answerRepository.findOne({
+      where: { project: { id: projectId }, question: { id: questionId }, isDeleted: false },
+    });
+  
+    let savedAnswer: Answer;
+  
+    if (!existingAnswer) {
+      const newResponseValue = parseFloat(response);
+      const answer = this.answerRepository.create({ project, question, response, isDeleted: false });
+      savedAnswer = await this.answerRepository.save(answer);
+  
+      await this.updateScore(projectId, newResponseValue);
+    }
   
     return savedAnswer;
   }
@@ -43,8 +55,28 @@ export class AnswersService {
       throw new BadRequestException(`La respuesta no es un número válido: ${valueToAdd}`);
     }
   
+    // Incrementar la puntuación
     await this.projectRepository.increment({ id: projectId }, 'score', valueToAdd);
+  
+    // Llamar a la función para actualizar el estado después de cambiar la puntuación
+    await this.updateStatus(projectId);
   }
+  
+  private async updateStatus(projectId: number): Promise<Project> {
+    // Obtener el proyecto actualizado, incluyendo la puntuación
+    const updatedProject = await this.projectRepository.findOne({ where: { id: projectId } });
+  
+    if (!updatedProject) {
+      throw new NotFoundException(`Proyecto con ID ${projectId} no encontrado.`);
+    }
+  
+    // Determinar el nuevo estado en función de la puntuación
+    updatedProject.status = updatedProject.score >= 80 ? 'APRUEBA' : 'NO APRUEBA';
+  
+    // Guardar el proyecto actualizado con el nuevo estado
+    return this.projectRepository.save(updatedProject);
+  }
+  
 
   async findAll(): Promise<Answer[]> {
     return this.answerRepository.find({

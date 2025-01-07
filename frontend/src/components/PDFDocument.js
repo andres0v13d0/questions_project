@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
 });
 
 const PDFDocument = ({ content }) => (
-  <Document>
+  <Document title='Reporte'>
     <Page size="A4" style={styles.page}>
       <Image
         src="/assets/logo.png" 
