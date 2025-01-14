@@ -53,7 +53,7 @@ function ProjectData({ onProjectSubmit }) {
               />
             </fieldset>
             <h1 id="label">Integrantes:</h1>
-            <div className='members'>
+            <div className='members' style={{maxHeight: '150px', overflowY: 'auto'}}>
                 {members.map((member, index) => (
                 <fieldset className="int-names" key={index}>
                     <legend>Nombre del integrante</legend>

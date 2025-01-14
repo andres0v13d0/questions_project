@@ -22,8 +22,26 @@ function Item1({ items, questions, vector, projectId, onAnswerChange }) {
             <input
               type="number"
               min="0"
+              value="0"
               max={vector[question.id - 1]}
-              onChange={(e) => handleInputChange(question.id, e.target.value)}
+              onChange={(e) => {
+                const value = parseInt(e.target.value, 10);
+                const maxValue = vector[question.id - 1];
+            
+                if (value < 0) {
+                  alert("El valor no puede ser menor que 0.");
+                  e.target.value = ""; 
+                  return;
+                }
+            
+                if (value > maxValue) {
+                  alert(`El valor no puede ser mayor que ${maxValue}.`);
+                  e.target.value = ""; 
+                  return;
+                }
+            
+                handleInputChange(question.id, value);
+              }}
             />
             <span>/{vector[question.id - 1]}</span>
           </div>

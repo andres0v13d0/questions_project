@@ -209,4 +209,28 @@ button{
     width: 100%;
     justify-content: center;
   }
+
+  .data-container h2{
+    font-size: 25px;
+    margin-bottom: 3vh;
+  }
+
+  .data-container p{
+    width: 80vw;
+    text-align: start;
+    font-size: 20px;
+  }
+
+  .data-container fieldset{
+    width: 70vw;
+  }
+
+  .members{
+    width: 100%;
+  }
+
+  .next-btn{
+    left: 75vw;
+  }
+  
 }

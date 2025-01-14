@@ -224,16 +224,43 @@ function App() {
     
   ];
 
+  const validateAnswers = () => {
+    const currentQuestions = questions.filter(
+      (q) => q.item?.id === currentIndex + 1
+    );
+    for (const question of currentQuestions) {
+      const answer = answers.find((ans) => ans.questionId === question.id);
+      const maxValue = vector[question.id - 1];
+
+      if (currentIndex === 0){
+        if (!answer || answer.response === "") {
+          alert(`La respuesta para la pregunta ${question.id} debe estar entre 0 y ${maxValue}.`);
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   const handleNext = async () => {
     if (currentIndex === 0) {
       try {
+        if (!projectData || !projectData.name || !projectData.coordinator) {
+          alert("Por favor, completa todos los campos del proyecto antes de continuar.");
+          return;
+        }
         const projectResponse = await fetch("http://localhost:3002/projects", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(projectData),
         });
         const project = await projectResponse.json();
-        setProjectId(project.id); 
+        setProjectId(project.id);
+        
+        if (!projectMembers || projectMembers.length === 0 || projectMembers.some((member) => !member)) {
+          alert("Por favor, agrega al menos un miembro al proyecto antes de continuar o completa todos los campos.");
+          return;
+        }
   
         await Promise.all(
           projectMembers.map((member) =>
@@ -250,24 +277,26 @@ function App() {
         console.error("Error al enviar los datos del proyecto:", error);
       }
     } else if (currentIndex > 0) {
+
+      if (!validateAnswers()) {
+        return;
+      }
+
       try {
-        // Filtrar respuestas duplicadas por questionId
         const uniqueAnswers = Array.from(
           answers.reduce((map, answer) => {
             if (!map.has(answer.questionId)) {
-              map.set(answer.questionId, answer); // Agregar si no existe
+              map.set(answer.questionId, answer); 
             }
-            return map; // Continuar acumulando
-          }, new Map()).values() // Extraer solo los valores únicos
+            return map; 
+          }, new Map()).values() 
         );
       
-        // Comprobar si hubo duplicados y mostrarlos en consola
         if (uniqueAnswers.length !== answers.length) {
           console.log("Se eliminaron respuestas duplicadas:");
           console.log(answers.filter(answer => !uniqueAnswers.includes(answer)));
         }
       
-        // Enviar las respuestas únicas al servidor
         await Promise.all(
           uniqueAnswers.map((answer) =>
             fetch("http://localhost:3002/answers", {
@@ -320,12 +349,12 @@ function App() {
       <header className="App-header">
         {components[currentIndex]} 
         <div className="navigation-buttons" style={{ marginTop: "20px" }}>
-        <button
-          onClick={handleNext}
-          className="next-btn"
-        >
-          <FaArrowAltCircleRight />
-        </button>
+          <button
+            onClick={handleNext}
+            className="next-btn"
+          >
+            <FaArrowAltCircleRight />
+          </button>
         </div>
       </header>
     </div>
