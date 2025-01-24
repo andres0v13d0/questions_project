@@ -4,6 +4,7 @@
   import './index.css';
   import App from './App.js'
   import Inicio from './components/Inicio.js';
+  import Login from './components/Login.js';
   import PDFCreate from './components/PDFCreate.js';
   import reportWebVitals from './reportWebVitals';
 
@@ -12,6 +13,7 @@
     <React.StrictMode>
       <Router>
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<Inicio />} />
         <Route path="/add-project" element={<App />} />
         <Route path="/pdf-create" element={<PDFCreate />}/>
