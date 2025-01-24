@@ -63,13 +63,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     borderRight: '1px solid black',
-    width: 100,
+    width: 75,
   },
   cellDes: {
     textAlign: 'center',
     fontWeight: 'bold',
     borderRight: '1px solid black',
-    width: 300,
+    width: 250,
   },
   cellPeso: {
     textAlign: 'center',
@@ -81,12 +81,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     borderRight: '1px solid black',
-    width: 60,
+    width: 55,
   },
   cellObser: {
     textAlign: 'center',
     fontWeight: 'bold',
-    width: 100,
+    width: 120,
   },
   rowData: {
     flexDirection: 'row',
@@ -104,13 +104,13 @@ const styles = StyleSheet.create({
   },
   cellItemD: {
     borderRight: '1px solid black',
-    width: 100,
+    width: 75,
     display: 'flex',
     justifyContent: 'center', 
   },
   cellDesD: {
     borderRight: '1px solid black',
-    width: 300,
+    width: 250,
     display: 'flex',
     flexDirection: 'column'
   },
@@ -124,20 +124,21 @@ const styles = StyleSheet.create({
   cellPuntD: {
     textAlign: 'center',
     borderRight: '1px solid black',
-    width: 60,
+    width: 55,
     display: 'flex',
     flexDirection: 'column'
   },
   cellObserD: {
-    width: 100,
-     display: 'flex',
-    flexDirection: 'column'
+    width: 120,
+    display: 'flex',
+    flexDirection: 'column',
+    fontSize: 9,
   },
 });
 
 const PDFDocument = ({ content }) => (
   <Document title='Reporte'>
-    <Page size="A4" style={styles.page}>
+    <Page size="A4" style={styles.page} >
       <Image
         src="/assets/logo.png" 
         style={{
@@ -221,13 +222,15 @@ const PDFDocument = ({ content }) => (
         </View>
         <View style={styles.cellObserD}>
           <View>
-          <View style={{height: 33, display: 'flex', justifyContent: 'center'}}></View>
+          <View style={{height: 33, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 1)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{height: 50, borderTop: '1px solid black', display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{height: 50, borderTop: '1px solid black', display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 2)?.observation || " "}</Text></View>
           </View>
         </View>
       </View>
+
+
       <View style={styles.rowData}>
         <View style={styles.cellNumD}><Text>2</Text></View>
         <View style={styles.cellItemD}><Text>Problema</Text></View>
@@ -257,10 +260,10 @@ const PDFDocument = ({ content }) => (
         </View>
         <View style={styles.cellObserD}>
           <View>
-          <View style={{height: 33, display: 'flex', justifyContent: 'center'}}></View>
+          <View style={{height: 33, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 3)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{height: 50, borderTop: '1px solid black', display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{height: 50, borderTop: '1px solid black', display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 4)?.observation || " "}</Text></View>
           </View>
         </View>
       </View>
@@ -312,16 +315,16 @@ const PDFDocument = ({ content }) => (
         </View>
         <View style={styles.cellObserD}>
         <View>
-            <View style={{ height: 33, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{ height: 33, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 5)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 6)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 7)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 33, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 33, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 8)?.observation || " "}</Text></View>
           </View>
         </View>
       </View>
@@ -364,13 +367,13 @@ const PDFDocument = ({ content }) => (
         </View>
         <View style={styles.cellObserD}>
         <View>
-            <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 9)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 10)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 17, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 17, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 11)?.observation || " "}</Text></View>
           </View>
         </View>
       </View>
@@ -413,16 +416,18 @@ const PDFDocument = ({ content }) => (
         </View>
         <View style={styles.cellObserD}>
         <View>
-            <View style={{ height: 33, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{ height: 33, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 12)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 13)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 33, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 33, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 14)?.observation || " "}</Text></View>
           </View>
         </View>
       </View>
+
+      <View style={{height: 100, borderBottom: '1px solid black'}}></View>
 
       <View style={styles.rowData}>
         <View style={styles.cellNumD}><Text>6</Text></View>
@@ -453,15 +458,13 @@ const PDFDocument = ({ content }) => (
         </View>
         <View style={styles.cellObserD}>
         <View>
-            <View style={{ height: 49.5, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{ height: 49.5, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 15)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 16)?.observation || " "}</Text></View>
           </View>
         </View>
       </View>
-
-      <View style={{height: 50, borderBottom: '1px solid black'}}></View>
 
       <View style={styles.rowData}>
         <View style={styles.cellNumD}><Text>7</Text></View>
@@ -483,7 +486,7 @@ const PDFDocument = ({ content }) => (
         </View>
         <View style={styles.cellObserD}>
         <View>
-            <View style={{ height: 33, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{ height: 33, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 17)?.observation || " "}</Text></View>
           </View>
         </View>
       </View>
@@ -518,10 +521,10 @@ const PDFDocument = ({ content }) => (
         </View>
         <View style={styles.cellObserD}>
         <View>
-            <View style={{ height: 33, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{ height: 33, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 18)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 34, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 19)?.observation || " "}</Text></View>
           </View>
         </View>
       </View>
@@ -564,13 +567,13 @@ const PDFDocument = ({ content }) => (
         </View>
         <View style={styles.cellObserD}>
         <View>
-            <View style={{ height: 33, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{ height: 33, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 20)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 50.5, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 50.5, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 21)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 49, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 49, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 22)?.observation || " "}</Text></View>
           </View>
         </View>
       </View>
@@ -613,19 +616,19 @@ const PDFDocument = ({ content }) => (
         </View>
         <View style={styles.cellObserD}>
         <View>
-            <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 23)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 18, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 18, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 24)?.observation || " "}</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 18, display: 'flex', justifyContent: 'center'}}></View>
+            <View style={{borderTop: '1px solid black', height: 18, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 25)?.observation || " "}</Text></View>
           </View>
         </View>
       </View>
 
       <View style={styles.rowData}>
-        <View style={{fontWeight: 'bold', width: 420, borderRight: '1px solid black'}}><Text>TOTAL</Text></View>
+        <View style={{fontWeight: 'bold', width: 345, borderRight: '1px solid black'}}><Text>TOTAL</Text></View>
         <View style={styles.cellPesoD}><Text>100</Text></View>
         <View style={styles.cellPuntD}><Text>{content.score}</Text></View>
         <View style={styles.cellObserD}><Text>{content.status}</Text></View>

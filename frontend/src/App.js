@@ -1,21 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectData from "./components/ProjectData";
+import Item from "./components/Item";
 import Header from "./section/Header";
-import Slider from "./section/Slider";
 import "./App.css";
 import { FaArrowAltCircleRight } from "react-icons/fa";
-
-import Item1 from "./components/Item1";
-import Item2 from "./components/Item2";
-import Item3 from "./components/Item3";
-import Item4 from "./components/Item4";
-import Item5 from "./components/Item5";
-import Item6 from "./components/Item6";
-import Item7 from "./components/Item7";
-import Item8 from "./components/Item8";
-import Item9 from "./components/Item8";
-import Item10 from "./components/Item10";
 
 function App() {
 
@@ -25,214 +14,69 @@ function App() {
   const [answers, setAnswers] = useState([]);
   const [projectId, setProjectId] = useState(null);
 
-
   const vector = [
     3, 5, 5, 5, 4, 4, 4, 4, 2, 5, 2, 2, 2, 4, 5, 5, 5, 2, 3, 5, 2, 2, 10, 0, 10,
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0); 
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState([]); 
   const [questions, setQuestions] = useState([]);
 
-  const components = [
-    <ProjectData onProjectSubmit={(project, members) => {
-      setProjectData(project);
-      setProjectMembers(members);
-    }}/>,
-    <Item1
-      items={items.filter((item) => item.id === 1)}
-      questions={questions.filter((question) => question.item?.id === 1)}
-      vector={vector}
-      projectId={projectId}
-      onAnswerChange={(questionId, response) => {
-        setAnswers((prevAnswers) => {
-          const updatedAnswers = [...prevAnswers];
-          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
-          if (answerIndex !== -1) {
-            updatedAnswers[answerIndex].response = response;
-          } else {
-            updatedAnswers.push({ projectId, questionId, response });
-          }
-          return updatedAnswers;
-        });
-      }}
-    />,
-    <Item2
-      items={items.filter((item) => item.id === 2)}
-      questions={questions.filter((question) => question.item?.id === 2)}
-      vector={vector}
-      projectId={projectId}
-      onAnswerChange={(questionId, response) => {
-        setAnswers((prevAnswers) => {
-          const updatedAnswers = [...prevAnswers];
-          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
-          if (answerIndex !== -1) {
-            updatedAnswers[answerIndex].response = response;
-          } else {
-            updatedAnswers.push({ projectId, questionId, response });
-          }
-          return updatedAnswers;
-        });
-      }}
-    />,
-    <Item3
-      items={items.filter((item) => item.id === 3)}
-      questions={questions.filter((question) => question.item?.id === 3)}
-      vector={vector}
-      projectId={projectId}
-      onAnswerChange={(questionId, response) => {
-        setAnswers((prevAnswers) => {
-          const updatedAnswers = [...prevAnswers];
-          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
-          if (answerIndex !== -1) {
-            updatedAnswers[answerIndex].response = response;
-          } else {
-            updatedAnswers.push({ projectId, questionId, response });
-          }
-          return updatedAnswers;
-        });
-      }}
-    />,
-    <Item4
-      items={items.filter((item) => item.id === 4)}
-      questions={questions.filter((question) => question.item?.id === 4)}
-      vector={vector}
-      projectId={projectId}
-      onAnswerChange={(questionId, response) => {
-        setAnswers((prevAnswers) => {
-          const updatedAnswers = [...prevAnswers];
-          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
-          if (answerIndex !== -1) {
-            updatedAnswers[answerIndex].response = response;
-          } else {
-            updatedAnswers.push({ projectId, questionId, response });
-          }
-          return updatedAnswers;
-        });
-      }}
-    />,
-    <Item5
-      items={items.filter((item) => item.id === 5)}
-      questions={questions.filter((question) => question.item?.id === 5)}
-      vector={vector}
-      projectId={projectId}
-      onAnswerChange={(questionId, response) => {
-        setAnswers((prevAnswers) => {
-          const updatedAnswers = [...prevAnswers];
-          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
-          if (answerIndex !== -1) {
-            updatedAnswers[answerIndex].response = response;
-          } else {
-            updatedAnswers.push({ projectId, questionId, response });
-          }
-          return updatedAnswers;
-        });
-      }}
-    />,
-    <Item6
-      items={items.filter((item) => item.id === 6)}
-      questions={questions.filter((question) => question.item?.id === 6)}
-      vector={vector}
-      projectId={projectId}
-      onAnswerChange={(questionId, response) => {
-        setAnswers((prevAnswers) => {
-          const updatedAnswers = [...prevAnswers];
-          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
-          if (answerIndex !== -1) {
-            updatedAnswers[answerIndex].response = response;
-          } else {
-            updatedAnswers.push({ projectId, questionId, response });
-          }
-          return updatedAnswers;
-        });
-      }}
-    />,
-    <Item7
-      items={items.filter((item) => item.id === 7)}
-      questions={questions.filter((question) => question.item?.id === 7)}
-      vector={vector}
-      projectId={projectId}
-      onAnswerChange={(questionId, response) => {
-        setAnswers((prevAnswers) => {
-          const updatedAnswers = [...prevAnswers];
-          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
-          if (answerIndex !== -1) {
-            updatedAnswers[answerIndex].response = response;
-          } else {
-            updatedAnswers.push({ projectId, questionId, response });
-          }
-          return updatedAnswers;
-        });
-      }}
-    />,
-    <Item8
-      items={items.filter((item) => item.id === 8)}
-      questions={questions.filter((question) => question.item?.id === 8)}
-      vector={vector}
-      projectId={projectId}
-      onAnswerChange={(questionId, response) => {
-        setAnswers((prevAnswers) => {
-          const updatedAnswers = [...prevAnswers];
-          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
-          if (answerIndex !== -1) {
-            updatedAnswers[answerIndex].response = response;
-          } else {
-            updatedAnswers.push({ projectId, questionId, response });
-          }
-          return updatedAnswers;
-        });
-      }}
-    />,
-    <Item9
-      items={items.filter((item) => item.id === 9)}
-      questions={questions.filter((question) => question.item?.id === 9)}
-      vector={vector}
-      projectId={projectId}
-      onAnswerChange={(questionId, response) => {
-        setAnswers((prevAnswers) => {
-          const updatedAnswers = [...prevAnswers];
-          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
-          if (answerIndex !== -1) {
-            updatedAnswers[answerIndex].response = response;
-          } else {
-            updatedAnswers.push({ projectId, questionId, response });
-          }
-          return updatedAnswers;
-        });
-      }}
-    />,
-    <Item10
-      items={items.filter((item) => item.id === 10)}
-      questions={questions.filter((question) => question.item?.id === 10)}
-      vector={vector}
-      projectId={projectId}
-      onAnswerChange={(questionId, response) => {
-        setAnswers((prevAnswers) => {
-          const updatedAnswers = [...prevAnswers];
-          const answerIndex = updatedAnswers.findIndex((ans) => ans.questionId === questionId);
-          if (answerIndex !== -1) {
-            updatedAnswers[answerIndex].response = response;
-          } else {
-            updatedAnswers.push({ projectId, questionId, response });
-          }
-          return updatedAnswers;
-        });
-      }}
-    />,
+  const getComponent = (index) => {
+    if (index === 0) {
+      return (
+        <ProjectData onProjectSubmit={(project, members) => {
+          setProjectData(project);
+          setProjectMembers(members);
+        }} />
+      );
+    }
+    if (index > 0 && index <= 10) {
+      return (
+        <Item
+          items={items.filter((item) => item.id === index)}
+          questions={questions.filter((question) => question.item?.id === index)}
+          vector={vector}
+          projectId={projectId}
+          onAnswerChange={(questionId, value, field) => {
+            setAnswers((prevAnswers) => {
+              const answerIndex = prevAnswers.findIndex((ans) => ans.questionId === questionId);
 
-
-    
-  ];
+              if (answerIndex !== -1) {
+                const updatedAnswers = [...prevAnswers];
+                updatedAnswers[answerIndex] = {
+                  ...updatedAnswers[answerIndex],
+                  [field]: value,
+                };
+                console.log("Respuesta actualizada:", updatedAnswers);
+                return updatedAnswers;
+              } else {
+                const newAnswer = [
+                  ...prevAnswers,
+                  {
+                    projectId,
+                    questionId,
+                    response: field === "response" ? value : "",
+                    observation: field === "observation" ? value : "",
+                  },
+                ];
+                console.log("Nueva respuesta añadida:", newAnswer);
+                return newAnswer;
+              }
+            });
+          }}
+        />
+      );
+    }
+  };
 
   const validateAnswers = () => {
-    const currentQuestions = questions.filter(
-      (q) => q.item?.id === currentIndex + 1
-    );
+    const currentQuestions = questions.filter((q) => q.item?.id === currentIndex + 1);
     for (const question of currentQuestions) {
       const answer = answers.find((ans) => ans.questionId === question.id);
       const maxValue = vector[question.id - 1];
 
-      if (currentIndex === 0){
+      if (currentIndex === 0) {
         if (!answer || answer.response === "") {
           alert(`La respuesta para la pregunta ${question.id} debe estar entre 0 y ${maxValue}.`);
           return false;
@@ -261,7 +105,7 @@ function App() {
           alert("Por favor, agrega al menos un miembro al proyecto antes de continuar o completa todos los campos.");
           return;
         }
-  
+
         await Promise.all(
           projectMembers.map((member) =>
             fetch("http://localhost:3002/project-members", {
@@ -272,33 +116,16 @@ function App() {
           )
         );
 
-
       } catch (error) {
         console.error("Error al enviar los datos del proyecto:", error);
       }
     } else if (currentIndex > 0) {
-
-      if (!validateAnswers()) {
-        return;
-      }
+      if (!validateAnswers()) return;
 
       try {
-        const uniqueAnswers = Array.from(
-          answers.reduce((map, answer) => {
-            if (!map.has(answer.questionId)) {
-              map.set(answer.questionId, answer); 
-            }
-            return map; 
-          }, new Map()).values() 
-        );
-      
-        if (uniqueAnswers.length !== answers.length) {
-          console.log("Se eliminaron respuestas duplicadas:");
-          console.log(answers.filter(answer => !uniqueAnswers.includes(answer)));
-        }
-      
+        const filteredAnswers = answers.filter((ans) => ans.projectId && ans.response !== "");
         await Promise.all(
-          uniqueAnswers.map((answer) =>
+          filteredAnswers.map((answer) =>
             fetch("http://localhost:3002/answers", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -306,17 +133,15 @@ function App() {
             })
           )
         );
-      
-        console.log("Respuestas enviadas correctamente.");
       } catch (error) {
         console.error("Error al enviar respuestas:", error);
-      }      
+      }
     }
-  
-    if (currentIndex === components.length - 1) {
-      navigate("/pdf-create", { state: { projectId } });  
+
+    if (currentIndex >= 10) {
+      navigate("/pdf-create", { state: { projectId } });
     } else {
-      setCurrentIndex((prevIndex) => prevIndex + 1);
+      setCurrentIndex((prev) => prev + 1);
     }
   };
 
@@ -324,12 +149,12 @@ function App() {
     const fetchData = async () => {
       try {
         const itemsResponse = await fetch("http://localhost:3002/items");
+        if (!itemsResponse.ok) throw new Error('Error al obtener los items');
         const itemsData = await itemsResponse.json();
         setItems(itemsData);
 
-        const questionsResponse = await fetch(
-          "http://localhost:3002/questions"
-        );
+        const questionsResponse = await fetch("http://localhost:3002/questions");
+        if (!questionsResponse.ok) throw new Error('Error al obtener las preguntas');
         const questionsData = await questionsResponse.json();
         setQuestions(questionsData);
       } catch (error) {
@@ -338,16 +163,13 @@ function App() {
     };
 
     fetchData();
-  }, []);
-
-  
+  }, []); // No need to add dependencies if the URLs don't change
 
   return (
     <div className="App">
       <Header />
-      <Slider />
       <header className="App-header">
-        {components[currentIndex]} 
+        {getComponent(currentIndex)} 
         <div className="navigation-buttons" style={{ marginTop: "20px" }}>
           <button
             onClick={handleNext}

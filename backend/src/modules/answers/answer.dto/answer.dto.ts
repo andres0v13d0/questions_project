@@ -12,6 +12,10 @@ export class CreateAnswerDto {
   @IsString()
   @IsNotEmpty()
   response: string;
+
+  @IsString()
+  @IsOptional()
+  observation: string;
 }
 
 export class UpdateAnswerDto {
@@ -26,4 +30,8 @@ export class UpdateAnswerDto {
   @IsString()
   @IsOptional()
   response?: string;
+
+  @IsString()
+  @IsOptional()
+  observation: string;
 }

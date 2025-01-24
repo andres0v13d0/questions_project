@@ -62,3 +62,12 @@
     font-size: 20px;
     margin-left: 1vw;
 }
+
+.questions-cont #obser{
+    font-size: 15px;
+    margin-left: 2vw;
+    font-family: 'Ubuntu';
+    width: 400px; /* Ancho predeterminado */
+    height: 50px; /* Altura predeterminada */
+    resize: none;
+}

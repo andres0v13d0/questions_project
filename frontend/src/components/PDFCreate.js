@@ -9,7 +9,7 @@ function PDFCreate() {
 
   // Obteniendo projectId desde el estado
   const location = useLocation();
-  const projectId = location.state?.projectId;
+  const projectId = location.state?.projectId || 1;
  
   useEffect(() => {
     if (!projectId) {
@@ -68,11 +68,15 @@ function PDFCreate() {
           score: project.score || 0,
           status: project.status || 'Sin estado',
           members: filteredMembers,
-          questions: questions.map(question => ({
-            questionId: question.id,
-            content: question.content,
-            response: filteredAnswers.find(answer => answer.question?.id === question.id)?.response || '0',
-          })),
+          questions: questions.map(question => {
+            const answer = filteredAnswers.find(answer => answer.question?.id === question.id);
+            return {
+              questionId: question.id,
+              content: question.content,
+              response: answer?.response || '0',
+              observation: answer?.observation || ' ', // Agregado aquí
+            };
+          }),
         };
 
         console.log('Contenido construido para el PDF:', newContent);

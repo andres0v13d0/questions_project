@@ -18,17 +18,21 @@ export class AnswersService {
   ) {}
 
   async create(createAnswerDto: CreateAnswerDto): Promise<Answer> {
-    const { projectId, questionId, response } = createAnswerDto;
+    const { projectId, questionId, response, observation } = createAnswerDto;
   
     // Verificar si el proyecto existe y no está eliminado
-    const project = await this.projectRepository.findOne({ where: { id: projectId, isDeleted: false } });
+    const project = await this.projectRepository.findOne({
+      where: { id: projectId, isDeleted: false },
+    });
     if (!project) {
       throw new BadRequestException(`El proyecto con ID ${projectId} no existe o está eliminado.`);
     }
   
     // Verificar si la pregunta existe
-    const question = await this.questionRepository.findOne({ where: { id: questionId } });
-    if (!question) {  
+    const question = await this.questionRepository.findOne({
+      where: { id: questionId },
+    });
+    if (!question) {
       throw new BadRequestException(`La pregunta con ID ${questionId} no existe.`);
     }
   
@@ -41,14 +45,20 @@ export class AnswersService {
   
     if (!existingAnswer) {
       const newResponseValue = parseFloat(response);
-      const answer = this.answerRepository.create({ project, question, response, isDeleted: false });
+      const answer = this.answerRepository.create({
+        project,
+        question,
+        response,
+        observation, // Incluye el campo aquí
+        isDeleted: false,
+      });
       savedAnswer = await this.answerRepository.save(answer);
   
       await this.updateScore(projectId, newResponseValue);
     }
   
     return savedAnswer;
-  }
+  }  
 
   private async updateScore(projectId: number, valueToAdd: number): Promise<void> {
     if (isNaN(valueToAdd)) {
@@ -98,7 +108,7 @@ export class AnswersService {
 
   async update(id: number, updateAnswerDto: UpdateAnswerDto): Promise<Answer> {
     const answer = await this.findOne(id);
-
+  
     if (updateAnswerDto.projectId) {
       const project = await this.projectRepository.findOne({
         where: { id: updateAnswerDto.projectId, isDeleted: false },
@@ -108,7 +118,7 @@ export class AnswersService {
       }
       answer.project = project;
     }
-
+  
     if (updateAnswerDto.questionId) {
       const question = await this.questionRepository.findOne({
         where: { id: updateAnswerDto.questionId },
@@ -118,10 +128,12 @@ export class AnswersService {
       }
       answer.question = question;
     }
-
+  
     answer.response = updateAnswerDto.response ?? answer.response;
+    answer.observation = updateAnswerDto.observation ?? answer.observation; // Incluye esto
     return this.answerRepository.save(answer);
   }
+  
 
   async softDelete(id: number): Promise<Answer> {
     const answer = await this.findOne(id);

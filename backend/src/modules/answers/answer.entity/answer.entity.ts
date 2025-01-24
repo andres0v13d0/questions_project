@@ -16,6 +16,9 @@ export class Answer {
   @Column({ type: 'text' })
   response: string;
 
+  @Column({ type: 'text', nullable: true })
+  observation: string;
+
   @Column({ type: 'boolean', default: false })
   isDeleted: boolean;
 }
