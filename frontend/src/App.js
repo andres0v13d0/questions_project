@@ -13,9 +13,10 @@ function App() {
   const [projectMembers, setProjectMembers] = useState([]); 
   const [answers, setAnswers] = useState([]);
   const [projectId, setProjectId] = useState(null);
+  const [option, setOption] = useState(null);
 
   const vector = [
-    3, 5, 5, 5, 4, 4, 4, 4, 2, 5, 2, 2, 2, 4, 5, 5, 5, 2, 3, 5, 2, 2, 10, 0, 10,
+    3, 5, 5, 5, 4, 4, 4, 4, 2, 5, 2, 2, 2, 4, 5, 5, 5, 2, 3, 5, 2, 2, 10, 10, 10,
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0); 
@@ -34,6 +35,8 @@ function App() {
     if (index > 0 && index <= 10) {
       return (
         <Item
+          option={option}
+          setOption={setOption}
           items={items.filter((item) => item.id === index)}
           questions={questions.filter((question) => question.item?.id === index)}
           vector={vector}
@@ -139,7 +142,7 @@ function App() {
     }
 
     if (currentIndex >= 10) {
-      navigate("/pdf-create", { state: { projectId } });
+      navigate("/pdf-create", { state: { projectId, option } });
     } else {
       setCurrentIndex((prev) => prev + 1);
     }

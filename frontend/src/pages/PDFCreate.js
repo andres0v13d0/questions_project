@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { PDFViewer } from '@react-pdf/renderer';
+import { pdf } from '@react-pdf/renderer';  
 import { useLocation } from 'react-router-dom';
-import PDFDocument from './PDFDocument';
+import PDFDocument from '../components/PDFDocument';
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode'; 
 
 function PDFCreate() {
   const [content, setContent] = useState(null);
   const API_BASE_URL = 'http://localhost:3002';
 
-  // Obteniendo projectId desde el estado
   const location = useLocation();
-  const projectId = location.state?.projectId || 1;
- 
+  const projectId = location.state?.projectId || 8;
+  const option = location.state?.option || 'option1';
+
   useEffect(() => {
     if (!projectId) {
       console.error('No se proporcionó projectId en el estado de navegación.');
@@ -28,12 +30,6 @@ function PDFCreate() {
           fetch(`${API_BASE_URL}/answers`),
         ]);
 
-        // Verificando el estado de las respuestas
-        if (!projectResponse.ok) console.error('Error en projectResponse');
-        if (!membersResponse.ok) console.error('Error en membersResponse');
-        if (!questionsResponse.ok) console.error('Error en questionsResponse');
-        if (!answersResponse.ok) console.error('Error en answersResponse');
-
         if (!projectResponse.ok || !membersResponse.ok || !questionsResponse.ok || !answersResponse.ok) {
           throw new Error('Error al obtener datos desde el servidor');
         }
@@ -45,23 +41,9 @@ function PDFCreate() {
           answersResponse.json(),
         ]);
 
-        // Debugging de datos obtenidos
-        console.log('Datos del proyecto:', project);
-        console.log('Miembros del proyecto:', members);
-        console.log('Preguntas:', questions);
-        console.log('Respuestas:', answers);
-
-        // Filtrar miembros y respuestas por projectId
-        const filteredMembers = members
-          .filter(member => member.project?.id === projectId)
-          .map(member => member.memberName);
-
-        console.log('Miembros filtrados:', filteredMembers);
-
+        const filteredMembers = members.filter(member => member.project?.id === projectId).map(member => member.memberName);
         const filteredAnswers = answers.filter(answer => answer.project?.id === projectId);
-        console.log('Respuestas filtradas:', filteredAnswers);
 
-        // Construcción del contenido del PDF
         const newContent = {
           projectName: project.name || 'Nombre no disponible',
           coordinator: project.coordinator || 'Coordinador no disponible',
@@ -74,27 +56,76 @@ function PDFCreate() {
               questionId: question.id,
               content: question.content,
               response: answer?.response || '0',
-              observation: answer?.observation || ' ', // Agregado aquí
+              observation: answer?.observation || ' ',
             };
           }),
         };
 
-        console.log('Contenido construido para el PDF:', newContent);
         setContent(newContent);
+        generateAndSendPDF(newContent);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
       }
     };
 
     fetchData();
-  }, [projectId]); // Se ejecutará el efecto cuando cambie el projectId
+  }, [projectId]);
+
+  const generateAndSendPDF = async (content) => {
+    try {
+      const pdfBlob = await pdf(<PDFDocument content={content} option={option} />).toBlob();
+
+      console.log(' PDF generado:', pdfBlob);
+
+      const pdfBuffer = await pdfBlob.arrayBuffer();
+
+      await uploadPdf(pdfBuffer);
+
+    } catch (error) {
+      console.error('Error al generar o enviar el PDF:', error);
+    }
+  };
+
+  const uploadPdf = async (pdfBuffer) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No se encontró el token en el localStorage');
+      return;
+    }
+
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.id; 
+
+    try {
+
+      const pdfBlob = new Blob([pdfBuffer], { type: 'application/pdf' });
+
+      const formData = new FormData();
+      formData.append('pdf', pdfBlob, 'evaluation.pdf');
+
+      console.log('Enviando FormData:', formData.get('pdf'));
+
+      const response = await axios.post(
+        `http://localhost:3002/users/${userId}/pdf`, 
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      console.log('PDF enviado correctamente:', response.data);
+    } catch (error) {
+      console.error('Error al enviar el PDF:', error);
+    }
+  };
 
   return (
-    <div style={{height:'100vh'}}>
+    <div style={{ height: '100vh' }}>
       {content ? (
-        <PDFViewer width="100%" height='100%'>
-          <PDFDocument content={content} />
-        </PDFViewer>
+        <p>Gracias por completar la evaluación. El PDF se está guardando.</p>
       ) : (
         <p>Cargando datos...</p>
       )}

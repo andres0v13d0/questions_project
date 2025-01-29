@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PDFDocument = ({ content }) => (
+const PDFDocument = ({ content, option }) => (
   <Document title='Reporte'>
     <Page size="A4" style={styles.page} >
       <Image
@@ -582,12 +582,15 @@ const PDFDocument = ({ content }) => (
         <View style={styles.cellNumD}><Text>10</Text></View>
         <View style={styles.cellItemD}><Text>Tipo de proyecto</Text></View>
         <View style={styles.cellDesD}>
-          <View>
-            <Text>Es un proyecto multidisciplinario.</Text>
-          </View>
-          <View>
-            <Text style={{borderTop: '1px solid black'}}>Es un proyecto de carrera.</Text>
-          </View>
+          {option === 'option1' ? (
+            <View>
+              <Text>Es un proyecto multidisciplinario.</Text>
+            </View>
+          ) : (
+            <View>
+              <Text>Es un proyecto de carrera.</Text>
+            </View>
+          )}
           <View>
             <Text style={{borderTop: '1px solid black'}}>Cuenta con el pedido de la entidad externa.</Text>
           </View>
@@ -597,29 +600,26 @@ const PDFDocument = ({ content }) => (
             <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}><Text>10</Text></View>
           </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 18, display: 'flex', justifyContent: 'center'}}><Text>0</Text></View>
-          </View>
-          <View>
             <View style={{borderTop: '1px solid black', height: 18, display: 'flex', justifyContent: 'center'}}><Text>10</Text></View>
           </View>
         </View>
         <View style={styles.cellPuntD}>
-        <View>
-            <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 23)?.response || "0"}</Text></View>
-          </View>
-          <View>
-            <View style={{borderTop: '1px solid black', height: 18, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 24)?.response || "0"}</Text></View>
-          </View>
+          {option === 'option1' ? (
+            <View>
+              <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 23)?.response || "0"}</Text></View>
+            </View>
+          ) : (
+            <View>
+              <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 24)?.response || "0"}</Text></View>
+            </View>
+          )}
           <View>
             <View style={{borderTop: '1px solid black', height: 18, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 25)?.response || "0"}</Text></View>
           </View>
         </View>
         <View style={styles.cellObserD}>
-        <View>
-            <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 23)?.observation || " "}</Text></View>
-          </View>
           <View>
-            <View style={{borderTop: '1px solid black', height: 18, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 24)?.observation || " "}</Text></View>
+            <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 23)?.observation || " "}</Text></View>
           </View>
           <View>
             <View style={{borderTop: '1px solid black', height: 18, display: 'flex', justifyContent: 'center'}}><Text>{content.questions.find(q => q.questionId === 25)?.observation || " "}</Text></View>
@@ -632,6 +632,28 @@ const PDFDocument = ({ content }) => (
         <View style={styles.cellPesoD}><Text>100</Text></View>
         <View style={styles.cellPuntD}><Text>{content.score}</Text></View>
         <View style={styles.cellObserD}><Text>{content.status}</Text></View>
+      </View>
+
+      <View style={styles.rowData}>
+        <View style={{fontWeight: 'bold', width: '100%', textAlign: 'center'}}>
+          <Text>OBSERVACIONES:</Text>
+          <View style={{borderBottom: '1px solid black', margin: '20px 10px 10px 10px'}}></View>
+          <View style={{borderBottom: '1px solid black', margin: '10px'}}></View>
+          <View style={{borderBottom: '1px solid black', margin: '10px'}}></View>
+          <View style={{borderBottom: '1px solid black', margin: '10px'}}></View>
+        </View>
+      </View>
+
+      <View style={styles.rowData}>
+        <View style={{fontWeight: 'bold', width: '100%', textAlign: 'center'}}>
+          <Text>COORDINADOR</Text>
+        </View>
+      </View>
+
+      <View style={styles.rowData}>
+        <View style={{fontWeight: 'bold', borderRight: '1px solid black', width: '33%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', textAlign: 'center',height: '100px'}}><Text style={{width: '70%'}}>Analista de Servicios a la Sociedad 1</Text></View>
+        <View style={{fontWeight: 'bold', borderRight: '1px solid black', width: '33%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', textAlign: 'center',height: '100px'}}><Text style={{width: '70%'}}>Analista de Servicios a la Sociedad 3</Text></View>
+        <View style={{fontWeight: 'bold', width: '33%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', textAlign: 'center',height: '100px'}}><Text style={{marginBottom: '15px'}}>Director de Vinculación</Text></View>
       </View>
       
     </Page>

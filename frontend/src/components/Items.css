@@ -4,7 +4,7 @@
 .items-cont{
     color: black;
     font-family: 'Ubuntu';
-    width: 50vw;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -70,4 +70,38 @@
     width: 400px; /* Ancho predeterminado */
     height: 50px; /* Altura predeterminada */
     resize: none;
+}
+
+.items-cont .intermediate-screen{
+    text-align: left;
+    padding-left: 30vw;
+}
+
+.intermediate-screen div{
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+}
+
+.intermediate-screen div button{
+    height: 40px;
+    font-size: 20px;
+    border: none;
+    color: white;
+    background-color: #b41a12;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.intermediate-screen div button + button{
+    margin-top: 30px;
+}
+
+.intermediate-screen div button:hover{
+    background-color: white;
+    border: 2px solid #b41a12;
+    color: black;
 }
