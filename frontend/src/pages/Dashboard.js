@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import "./Dashboard.css"
+import 'font-awesome/css/font-awesome.min.css';
 
 const Dashboard = () => {
   const [users, setUsers] = useState([]);
@@ -24,7 +26,8 @@ const Dashboard = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUsers(response.data);
+        const filteredUsers = response.data.filter(user => user.is_deleted === false);
+        setUsers(filteredUsers);
       } catch (err) {
         setError('No se pudieron cargar los usuarios');
       }
@@ -137,9 +140,9 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <h2>Dashboard - Administrador</h2>
       {error && <div className="error">{error}</div>}
-
-      <button onClick={handleLogout}>Cerrar sesión</button>
-      <button onClick={() => setShowModal(true)}>Agregar Usuario</button>
+      <div class="dashboard-buttons">
+      <button onClick={handleLogout}> <i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar sesión</button> </div>
+      
 
       <table>
         <thead>
@@ -174,15 +177,19 @@ const Dashboard = () => {
               </td>
               <td>
                 <button onClick={() => handleRoleChange(user.id, user.type_user === 'administrador' ? 'normal' : 'administrador')}>
-                  {user.type_user === 'administrador' ? 'Cambiar a Normal' : 'Cambiar a Administrador'}
+                  {user.type_user === 'administrador' ? 'Cambiar a Evaluador' : 'Cambiar a Administrador'}
                 </button>
-                <button onClick={() => handleDelete(user.id)}>Eliminar</button>
+                <button onClick={() => handleDelete(user.id)}>
+                <i className="fa fa-trash"></i>
+                </button>
+
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
+      <br></br>
+      <button onClick={() => setShowModal(true)}>Agregar Usuario</button>
       {showModal && (
         <div className="modal">
           <div className="modal-content">
@@ -235,37 +242,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      <style>
-        {`
-          .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-          .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            min-width: 300px;
-          }
-          .modal-content form {
-            display: flex;
-            flex-direction: column;
-          }
-          .modal-content input {
-            margin-bottom: 10px;
-          }
-          .modal-content button {
-            margin-top: 10px;
-          }
-        `}
-      </style>
+     
     </div>
   );
 };

@@ -4,11 +4,12 @@ import { useLocation } from 'react-router-dom';
 import PDFDocument from '../components/PDFDocument';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode'; 
+import { useNavigate } from 'react-router-dom';
 
 function PDFCreate() {
   const [content, setContent] = useState(null);
   const API_BASE_URL = 'http://localhost:3002';
-
+  const navigate = useNavigate();
   const location = useLocation();
   const projectId = location.state?.projectId || 8;
   const option = location.state?.option || 'option1';
@@ -122,10 +123,16 @@ function PDFCreate() {
     }
   };
 
+  const handleContinue = () => {
+    navigate('/inicio');
+  };
   return (
     <div style={{ height: '100vh' }}>
       {content ? (
+        <>
         <p>Gracias por completar la evaluación. El PDF se está guardando.</p>
+        <button onClick={handleContinue}>Continuar</button>
+        </>
       ) : (
         <p>Cargando datos...</p>
       )}

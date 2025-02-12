@@ -42,9 +42,14 @@
 							</ul>
 						</div>
 						<div class="login-block">
-							<a href="">EMPEZAR</a>
-							
+							<a href="#" onclick="handleLogout()">Cerrar sesión</a>
 						</div>
+						<script>
+							function handleLogout() {
+								localStorage.removeItem('token');
+								window.location.href = '/'; 
+							}
+						</script>
 					</div>
 				</div>
 			</div>

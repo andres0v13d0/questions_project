@@ -1,0 +1,187 @@
+/* General */
+.dashboard-container {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .error {
+    color: #B41A12;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  /* Buttons */
+  button {
+    background-color: #B41A12;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color:  #5a0505;
+  }
+  
+  /* Table */
+  .table-container {
+    width: 100%;
+    max-height: 400px; /* Máxima altura para la tabla */
+    overflow-y: auto; /* Permite desplazamiento vertical */
+    margin-top: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #000000;
+    color: white;
+  }
+  
+  td {
+    background-color: #fff;
+  }
+  
+  td button {
+    margin-right: 10px;
+  }
+  
+  /* Modal */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-content form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .modal-content input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .modal-content button {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .modal-content button[type="submit"] {
+    background-color: #B41A12;
+  }
+  
+  .modal-content button[type="button"] {
+    background-color: #ccc;
+  }
+  
+  /* Prevent scrolling of the body when modal is open */
+  body.modal-open {
+
+    overflow: hidden;
+  }
+  
+  /* Style the layout when users are added */
+  .dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  table th, table td {
+    text-align: center;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .dashboard-container {
+      padding: 15px;
+    }
+  
+    table {
+      font-size: 0.9rem;
+    }
+  }
+  button i {
+    font-size: 18px; /* Ajusta el tamaño */
+    color: #fefefe;  /* Ajusta el color */
+    transition: color 0.3s;
+  }
+  
+  button:hover i {
+    color: #5a0505; /* Cambia el color al pasar el cursor */
+    color: #fefefe;  /* Ajusta el color */
+  }
+
+  button i {
+    margin-right: 1px; /* Espacio entre el icono y el texto */
+   
+  }
+  .dashboard-buttons {
+    display: flex;
+  justify-content: flex-end; /* Alinea el botón a la derecha */
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  margin-top: 20px; /* Espacio superior, ajusta según lo necesites */
+  
+  }
+  
+  .dashboard-buttons button {
+    background-color: #5b5b5b;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .dashboard-buttons button:hover {
+    background-color: #5a0505;
+  }
+  
+ 

@@ -14,9 +14,9 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<{ accessToken: string; redirectUrl: string }> {
     const user = await this.usersService.getUserByEmail(email);
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new UnauthorizedException('Credenciales inválidas');
-    }
+    if (!user || user.is_deleted === true || !(await bcrypt.compare(password, user.password))) {
+      throw new UnauthorizedException('Credenciales inválidas o usuario eliminado');
+    }
 
     const payload = { id: user.id, typeUser: user.type_user };
     const accessToken = this.jwtService.sign(payload, {

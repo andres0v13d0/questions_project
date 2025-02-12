@@ -31,7 +31,7 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <h2 className="title">Sistema de Evaluación de Proyectos</h2>
-            <h2>Iniciar sesión</h2>
+            
             <label htmlFor="email" className={email ? 'active' : ''}>
               <span className="floating-label">Correo</span>
               <input
