@@ -1,82 +1,73 @@
-/* Estilos generales */
-body {
+/* Estilos específicos para la página de login */
+.login-page {
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(150deg, #B41A12, #5a0505);
   display: flex;
-  justify-content: flex-end; /* Alinea el contenido a la derecha */
+  justify-content: flex-end;
   align-items: center;
   height: 100vh;
   margin: 0;
-  padding-right: 20px; /* Ajusta el espaciado desde el borde derecho */
-}
-
-.login-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding-right: 20px;
   width: 100%;
-  height: 100%;
 }
 
-.login-container {
+.login-page .login-container {
   background: #fff;
   padding: 2rem;
   border-radius: 0px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  width: 600px; /* Aumenta el ancho del contenedor */
-  height: 100%; /* Asegura que el contenedor ocupe toda la altura */
+  width: 600px;
+  height: 100%;
   text-align: center;
   position: absolute;
   top: 0;
   right: 0;
-  bottom: 0; /* Mantiene el contenedor a lo largo de toda la altura */
+  bottom: 0;
 }
 
-h2 {
+.login-page h2 {
   margin-bottom: 1rem;
   color: #150202c1;
 }
 
-.error {
+.login-page .error {
   color: red;
   margin-bottom: 1rem;
 }
 
-form {
+.login-page form {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centra el contenido del formulario */
-  height: 100%; /* Permite que el formulario ocupe toda la altura del contenedor */
+  justify-content: center;
+  height: 100%;
 }
 
-.input-group {
+.login-page .input-group {
   position: relative;
   margin-bottom: 1.5rem;
 }
 
-label {
+.login-page label {
   display: block;
   position: relative;
   width: 100%;
 }
 
-.floating-label {
+.login-page .floating-label {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 15px;
   font-size: 0.875rem;
   color: #999;
   transition: 0.3s ease;
   pointer-events: none;
-  left: 15px;
   top: 25px;
 }
 
-input {
-
+.login-page input {
   padding: 30px 15px;
-  width: 100%;
-  border: 1px solid #ccc;
+  width: 95%;
+  border: 1px solid #b71010;
   border-radius: 1px;
   font-size: 1rem;
   transition: 0.3s;
@@ -84,20 +75,20 @@ input {
   margin-top: 1rem;
 }
 
-input:focus {
+.login-page input:focus {
   border-color: #667eea;
   outline: none;
   box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
 }
 
-input:focus ~ .floating-label,
-input:not(:placeholder-shown) ~ .floating-label {
+.login-page input:focus ~ .floating-label,
+.login-page input:not(:placeholder-shown) ~ .floating-label {
   top: -10px;
   font-size: 0.75rem;
   color: #5a0505;
 }
 
-button {
+.login-page button {
   background: #B41A12;
   color: white;
   padding: 10px;
@@ -109,18 +100,18 @@ button {
   transition: 0.3s;
 }
 
-button:hover {
-  background: #764ba2;
+.login-page button:hover {
+  background: #360311;
 }
 
 /* Responsividad */
 @media (max-width: 500px) {
-  .login-container {
+  .login-page .login-container {
     width: 90%;
     padding: 1.5rem;
   }
 
-  input {
+  .login-page input {
     font-size: 0.9rem;
   }
 }

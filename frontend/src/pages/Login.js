@@ -18,7 +18,6 @@ const Login = () => {
       });
 
       localStorage.setItem('token', response.data.accessToken);
-
       navigate(response.data.redirectUrl);
     } catch (err) {
       setError('Credenciales incorrectas');
@@ -26,7 +25,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-wrapper">
+    <div className="login-page">
       <div className="login-container">
         {error && <div className="error">{error}</div>}
         <form onSubmit={handleSubmit}>
