@@ -1,26 +1,126 @@
-.gradient-custom-2 {
-    /* fallback for old browsers */
-    background: #fccb90;
-  
-    /* Chrome 10-25, Safari 5.1-6 */
-    background-color: green;
-  
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    
+/* Estilos generales */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(150deg, #B41A12, #5a0505);
+  display: flex;
+  justify-content: flex-end; /* Alinea el contenido a la derecha */
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding-right: 20px; /* Ajusta el espaciado desde el borde derecho */
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.login-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 0px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 600px; /* Aumenta el ancho del contenedor */
+  height: 100%; /* Asegura que el contenedor ocupe toda la altura */
+  text-align: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0; /* Mantiene el contenedor a lo largo de toda la altura */
+}
+
+h2 {
+  margin-bottom: 1rem;
+  color: #150202c1;
+}
+
+.error {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra el contenido del formulario */
+  height: 100%; /* Permite que el formulario ocupe toda la altura del contenedor */
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.floating-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 0.875rem;
+  color: #999;
+  transition: 0.3s ease;
+  pointer-events: none;
+  left: 15px;
+  top: 25px;
+}
+
+input {
+
+  padding: 30px 15px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  font-size: 1rem;
+  transition: 0.3s;
+  background-color: #f9f9f9;
+  margin-top: 1rem;
+}
+
+input:focus {
+  border-color: #667eea;
+  outline: none;
+  box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+}
+
+input:focus ~ .floating-label,
+input:not(:placeholder-shown) ~ .floating-label {
+  top: -10px;
+  font-size: 0.75rem;
+  color: #5a0505;
+}
+
+button {
+  background: #B41A12;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #764ba2;
+}
+
+/* Responsividad */
+@media (max-width: 500px) {
+  .login-container {
+    width: 90%;
+    padding: 1.5rem;
   }
 
-  body {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
+  input {
+    font-size: 0.9rem;
   }
-  
-  @media (min-width: 768px) {
-    .gradient-form {
-      height: 100vh !important;
-    }
-  }
-  @media (min-width: 769px) {
-    .gradient-custom-2 {
-      border-top-right-radius: .3rem;
-      border-bottom-right-radius: .3rem;
-    }
-  }
+}
