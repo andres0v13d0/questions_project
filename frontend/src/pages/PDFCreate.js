@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { pdf } from '@react-pdf/renderer';  
 import { useLocation } from 'react-router-dom';
 import PDFDocument from '../components/PDFDocument';
@@ -13,12 +13,23 @@ function PDFCreate() {
   const location = useLocation();
   const projectId = location.state?.projectId || 8;
   const option = location.state?.option || 'option1';
+  const pdfGenerated = useRef(false);
 
   useEffect(() => {
-    if (!projectId) {
+    if (!projectId || pdfGenerated.current) {
       console.error('No se proporcionó projectId en el estado de navegación.');
       return;
     }
+
+    const updateScore = async () => {
+      try {
+        console.log(`Actualizando puntaje del proyecto con ID: ${projectId}`);
+        await axios.get(`${API_BASE_URL}/projects/${projectId}/update-score`);
+        console.log('Puntaje actualizado correctamente.');
+      } catch (error) {
+        console.error('Error al actualizar el puntaje del proyecto:', error);
+      }
+    };
 
     const fetchData = async () => {
       try {
@@ -63,13 +74,23 @@ function PDFCreate() {
         };
 
         setContent(newContent);
-        generateAndSendPDF(newContent);
+       
+        if (!pdfGenerated.current) {
+          pdfGenerated.current = true;
+          await generateAndSendPDF(newContent);
+        }
+
       } catch (error) {
         console.error('Error al obtener los datos:', error);
       }
     };
 
-    fetchData();
+    const updateAndFetchData = async () => {
+      await updateScore(); 
+      await fetchData();
+    };
+  
+    updateAndFetchData();
   }, [projectId]);
 
   const generateAndSendPDF = async (content) => {
@@ -107,7 +128,7 @@ function PDFCreate() {
       console.log('Enviando FormData:', formData.get('pdf'));
 
       const response = await axios.post(
-        `http://localhost:3002/users/${userId}/pdf`, 
+        `${API_BASE_URL}/user-pdfs/${userId}/upload`, 
         formData,
         {
           headers: {

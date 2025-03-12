@@ -16,7 +16,7 @@ function App() {
   const [option, setOption] = useState(null);
 
   const vector = [
-    3, 5, 5, 5, 4, 4, 4, 4, 2, 5, 2, 2, 2, 4, 5, 5, 5, 2, 3, 5, 2, 2, 10, 10, 10,
+    3, 5, 5, 5, 4, 4, 4, 4, 2, 5, 2, 2, 2, 4, 5, 5, 5, 2, 3, 5, 2, 2, 10, 5, 10,
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0); 

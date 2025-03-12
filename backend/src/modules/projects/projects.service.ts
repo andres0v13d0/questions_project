@@ -54,6 +54,9 @@ export class ProjectsService {
     return this.projectRepository.save(updatedProject);
   }
   
+  async updateProjectScore(projectId: number): Promise<void> {
+    await this.projectRepository.query(`SELECT update_project_score($1)`, [projectId]);
+  }
   
 
   async softDelete(id: number): Promise<Project> {

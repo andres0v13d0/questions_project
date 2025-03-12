@@ -149,17 +149,7 @@ const PDFDocument = ({ content, option }) => (
           left: 20
         }}
       />
-      <Image
-        src="/assets/decanato-logo.png" 
-        style={{
-          width: 80,
-          height: 'auto',
-          objectFit: 'cover',
-          position: 'absolute',
-          right: 20,
-          top: 30
-        }}
-      />
+      
       <View>
         <Text style={styles.titulo}>ESCUELA SUPERIOR POLITÉCNICA DE CHIMBORAZO</Text>
       </View>
@@ -597,7 +587,9 @@ const PDFDocument = ({ content, option }) => (
         </View>
         <View style={styles.cellPesoD}>
           <View>
-            <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}><Text>10</Text></View>
+            <View style={{ height: 16.5, display: 'flex', justifyContent: 'center'}}><Text>
+                {option === 'option1' ? "10" : "5"}
+              </Text></View>
           </View>
           <View>
             <View style={{borderTop: '1px solid black', height: 18, display: 'flex', justifyContent: 'center'}}><Text>10</Text></View>
@@ -651,8 +643,8 @@ const PDFDocument = ({ content, option }) => (
       </View>
 
       <View style={styles.rowData}>
-        <View style={{fontWeight: 'bold', borderRight: '1px solid black', width: '33%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', textAlign: 'center',height: '100px'}}><Text style={{width: '70%'}}>Analista de Servicios a la Sociedad 1</Text></View>
-        <View style={{fontWeight: 'bold', borderRight: '1px solid black', width: '33%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', textAlign: 'center',height: '100px'}}><Text style={{width: '70%'}}>Analista de Servicios a la Sociedad 3</Text></View>
+        <View style={{fontWeight: 'bold', borderRight: '1px solid black', width: '33%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', textAlign: 'center',height: '100px'}}><Text style={{marginBottom: '15px'}}>Analista de vinculación 1</Text></View>
+        <View style={{fontWeight: 'bold', borderRight: '1px solid black', width: '33%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', textAlign: 'center',height: '100px'}}><Text style={{marginBottom: '15px'}}>Analista de vinculación 3</Text></View>
         <View style={{fontWeight: 'bold', width: '33%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', textAlign: 'center',height: '100px'}}><Text style={{marginBottom: '15px'}}>Director de Vinculación</Text></View>
       </View>
       

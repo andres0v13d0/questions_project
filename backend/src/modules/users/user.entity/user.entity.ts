@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { UserPDF } from '../../user-pdf/user-pdf.entity/user-pdf.entity';
 
 @Entity('users')
 export class User {
@@ -23,8 +24,8 @@ export class User {
   @Column({ type: 'boolean', default: false })
   is_deleted: boolean;
 
-  @Column({ type: 'bytea', nullable: true })
-  pdf: Buffer;
+  @OneToMany(() => UserPDF, (userPDF) => userPDF.user, { cascade: true })
+  pdfs: UserPDF[];
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

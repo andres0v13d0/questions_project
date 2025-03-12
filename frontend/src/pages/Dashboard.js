@@ -26,8 +26,7 @@ const Dashboard = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        const filteredUsers = response.data.filter(user => user.is_deleted === false);
-        setUsers(filteredUsers);
+        setUsers(response.data);
       } catch (err) {
         setError('No se pudieron cargar los usuarios');
       }
@@ -44,27 +43,57 @@ const Dashboard = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setUsers(users.filter((user) => user.id !== id));
+      setUsers(users.map(user => 
+        user.id === id ? { ...user, is_deleted: true } : user
+      ));
     } catch (err) {
       setError('No se pudo eliminar el usuario');
     }
   };
 
-  const handleDownloadPDF = (bufferData, filename) => {
+  const restartSoftDelete = async (id) => {
     try {
-      const base64Data = bufferData.type === 'Buffer' ? 
-        btoa(String.fromCharCode(...new Uint8Array(bufferData.data))) : 
-        bufferData;
-  
+      const token = localStorage.getItem('token');
+      await axios.put(
+        `http://localhost:3002/users/${id}/restart`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUsers(users.map(user => (user.id === id ? { ...user, is_deleted: false } : user)));
+    } catch (err) {
+      setError('No se pudo restaurar el usuario');
+    }
+  };
+
+  const formatDate = (isoDate) => {
+    if (!isoDate) return "Fecha no disponible";
+    const date = new Date(isoDate);
+    return `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}`;
+  };
+
+  const handleDownloadPDF = (bufferData, filename) => {
+    if (!bufferData) {
+      console.error("No hay PDF disponible para descargar.");
+      return;
+    }
+
+    try {
+      const base64Data = bufferData.type === 'Buffer' 
+        ? btoa(String.fromCharCode(...new Uint8Array(bufferData.data))) 
+        : bufferData;
+
       const byteCharacters = atob(base64Data);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
         byteNumbers[i] = byteCharacters.charCodeAt(i);
       }
       const byteArray = new Uint8Array(byteNumbers);
-  
       const blob = new Blob([byteArray], { type: 'application/pdf' });
-  
+
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
@@ -140,52 +169,96 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <h2>Dashboard - Administrador</h2>
       {error && <div className="error">{error}</div>}
-      <div class="dashboard-buttons">
-      <button onClick={handleLogout}> <i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar sesión</button> </div>
+      <div className="dashboard-buttons">
+      <button onClick={handleLogout}> <i className="fa fa-sign-out" aria-hidden="true"></i> Cerrar sesión</button> </div>
       
 
       <table>
-        <thead>
-          <tr>
+      <thead>
+        <tr>
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Email</th>
             <th>Tipo de Usuario</th>
-            <th>PDF</th>
+            <th colSpan="2">PDF</th>
             <th>Acciones</th>
-          </tr>
-        </thead>
+        </tr>
+        <tr>
+            <th colSpan="4"></th>
+            <th>Fecha</th>
+            <th>Enlace</th>
+            <th></th>
+        </tr>
+    </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
+        {users.map((user) => (
+          Array.isArray(user.pdfs) && user.pdfs.length > 0 ? (
+            user.pdfs.map((pdf, index) => (
+              <tr key={`${user.id}-${index}`} className={user.is_deleted ? 'deleted-user' : ''}>
+                {index === 0 && (
+                  <>
+                    <td rowSpan={user.pdfs.length}>{user.first_name}</td>
+                    <td rowSpan={user.pdfs.length}>{user.last_name}</td>
+                    <td rowSpan={user.pdfs.length}>{user.email}</td>
+                    <td rowSpan={user.pdfs.length}>{user.type_user}</td>
+                  </>
+                )}
+                <td>{new Date(pdf.uploaded_at).toISOString().slice(0, 16).replace("T", " ")}</td>
+                <td>
+                  <button
+                    onClick={() => {
+                      const fullName = `${user.first_name}${user.last_name}`.toLowerCase().replace(/\s/g, '');
+                      const formattedDate = formatDate(pdf.uploaded_at);
+                      const fileName = `${fullName}_${formattedDate}.pdf`;
+
+                      handleDownloadPDF(pdf.pdf, fileName);
+                    }}
+                  >
+                    Descargar PDF {index + 1}
+                  </button>
+                </td>
+                {index === 0 && (
+                  <td rowSpan={user.pdfs.length}>
+                    <button onClick={() => handleRoleChange(user.id, user.type_user === 'administrador' ? 'normal' : 'administrador')}>
+                      {user.type_user === 'administrador' ? 'Cambiar a Evaluador' : 'Cambiar a Administrador'}
+                    </button>
+                    {user.is_deleted ? (
+                      <button onClick={() => restartSoftDelete(user.id)}>
+                        <i className="fa fa-undo"></i>
+                      </button>
+                    ) : (
+                      <button onClick={() => handleDelete(user.id)}>
+                        <i className="fa fa-trash"></i>
+                      </button>
+                    )}
+                  </td>
+                )}
+              </tr>
+            ))
+          ) : (
+            <tr key={user.id} className={user.is_deleted ? 'deleted-user' : ''}>
               <td>{user.first_name}</td>
               <td>{user.last_name}</td>
               <td>{user.email}</td>
               <td>{user.type_user}</td>
-              <td>
-                {user.pdf ? ( 
-                  <button
-                    onClick={() => {
-                      const base64String = user.pdf; 
-                      handleDownloadPDF(base64String, `${user.first_name}_${user.last_name}.pdf`);
-                    }}                  >
-                    Descargar PDF
-                  </button>
-                ) : (
-                  'No disponible'
-                )}
-              </td>
+              <td colSpan={2}>No disponible</td>
               <td>
                 <button onClick={() => handleRoleChange(user.id, user.type_user === 'administrador' ? 'normal' : 'administrador')}>
                   {user.type_user === 'administrador' ? 'Cambiar a Evaluador' : 'Cambiar a Administrador'}
                 </button>
-                <button onClick={() => handleDelete(user.id)}>
-                <i className="fa fa-trash"></i>
-                </button>
-
+                {user.is_deleted ? (
+                  <button onClick={() => restartSoftDelete(user.id)}>
+                    <i className="fa fa-undo"></i>
+                  </button>
+                ) : (
+                  <button onClick={() => handleDelete(user.id)}>
+                    <i className="fa fa-trash"></i>
+                  </button>
+                )}
               </td>
             </tr>
-          ))}
+          )
+        ))}
         </tbody>
       </table>
       <br></br>

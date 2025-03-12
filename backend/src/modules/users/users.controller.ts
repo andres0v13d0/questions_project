@@ -39,19 +39,18 @@ import {
     async softDeleteUser(@Param('id') id: number) {
       return await this.usersService.softDeleteUser(id);
     }
-  
+
+    @UseGuards(JwtAuthGuard)
+    @Put(':id/restart')
+    async restartSoftDeleteUser(@Param('id') id: number) {
+      return await this.usersService.restartSoftDelete(id);
+    }
+
     @UseGuards(JwtAuthGuard)
     @Put(':id/role')
     async changeUserRole(@Param('id') id: number, @Body('newRole') newRole: 'normal' | 'administrador') {
       return await this.usersService.changeUserRole(id, newRole);
     }
   
-    @UseGuards(JwtAuthGuard)
-    @Post(':id/pdf')
-    @UseInterceptors(FileInterceptor('pdf'))
-    async uploadPdf(@Param('id') id: number, @UploadedFile() file: Express.Multer.File) {
-      console.log(file);
-      return await this.usersService.saveUserPdf(id, file.buffer);
-    }
   }
   

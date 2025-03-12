@@ -8,6 +8,7 @@ import { AnswersModule } from './modules/answers/answers.module';
 import { ProjectMembersModule } from './modules/project_members/project_members.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
+import { UserPDFModule } from './modules/user-pdf/user-pdf.module';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { UsersModule } from './modules/users/users.module';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         autoLoadEntities: true,
-        synchronize: false, // Cambiar a false en producción
+        synchronize: true, // Cambiar a false en producción
         ssl: {
           rejectUnauthorized: false,
         },
@@ -36,7 +37,8 @@ import { UsersModule } from './modules/users/users.module';
     AnswersModule,
     ProjectMembersModule,
     AuthModule,
-    UsersModule
+    UsersModule,
+    UserPDFModule,
   ],
 })
 export class AppModule {}

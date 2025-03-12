@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Param, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Param, Body, HttpCode, HttpStatus, ParseIntPipe } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto, UpdateProjectDto } from './project.dto/project.dto';
 
@@ -36,4 +36,10 @@ export class ProjectsController {
   async restore(@Param('id') id: number) {
     return this.projectsService.restore(id);
   }
+
+  @Get(':projectId/update-score')
+  async updateScore(@Param('projectId', ParseIntPipe) projectId: number): Promise<void> {
+    await this.projectsService.updateProjectScore(projectId);
+  }
+
 }

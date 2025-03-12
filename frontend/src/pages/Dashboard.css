@@ -183,5 +183,10 @@
   .dashboard-buttons button:hover {
     background-color: #5a0505;
   }
+
+  .deleted-user {
+    opacity: 0.5;
+    color: gray;
+  }
   
  

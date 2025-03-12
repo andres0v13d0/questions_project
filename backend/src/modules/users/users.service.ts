@@ -13,7 +13,9 @@ export class UsersService {
   ) {}
 
   async getAllUsers(): Promise<User[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+      relations: ['pdfs'],
+    });
   }
 
   async getUserById(id: number): Promise<User> {
@@ -47,17 +49,17 @@ export class UsersService {
     await this.userRepository.save(user);
   }
 
+  async restartSoftDelete(id: number): Promise<User> {
+    const user = await this.getUserById(id);
+    if (!user.is_deleted) throw new ConflictException('El usuario ya está activo');
+  
+    user.is_deleted = false;
+    return await this.userRepository.save(user);
+  }  
+
   async changeUserRole(id: number, newRole: 'normal' | 'administrador'): Promise<User> {
     const user = await this.getUserById(id);
     user.type_user = newRole;
-    return await this.userRepository.save(user);
-  }
-
-  async saveUserPdf(id: number, pdfBuffer: Buffer): Promise<User> {
-    const user = await this.getUserById(id);
-    if (user.type_user !== 'normal') throw new ConflictException('Solo los usuarios normales pueden subir PDFs');
-    
-    user.pdf = pdfBuffer;
     return await this.userRepository.save(user);
   }
 }
